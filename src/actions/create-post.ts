@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { db } from '@/lib';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { Post } from '@prisma/client';
+import type { Post } from '@prisma/client';
 
 const createPostSchema = z.object({
     title:z.string().min(3),

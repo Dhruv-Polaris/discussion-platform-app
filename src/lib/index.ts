@@ -7,7 +7,7 @@ const createPrismaClient = () => {
   const url = process.env.DATABASE_URL;
   const authToken = process.env.TURSO_AUTH_TOKEN;
 
-  if (url && authToken) {
+  if (url) {
     const adapter = new PrismaLibSql({
       url,
       authToken,

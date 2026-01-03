@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/auth";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const posts = await fetchTopPosts(0, 10);
   const session = await auth();

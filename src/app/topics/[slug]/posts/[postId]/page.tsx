@@ -6,6 +6,8 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
+export const dynamic = 'force-dynamic';
+
 type PostShowPageProps = {
   params: Promise<{ slug: string; postId: string }>;
 };

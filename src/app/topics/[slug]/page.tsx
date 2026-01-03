@@ -7,6 +7,8 @@ import React from 'react'
 import { db } from '@/lib';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 type TopicShowPageProps = {
   params: Promise<{ slug: string }>;
 };

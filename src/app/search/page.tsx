@@ -3,6 +3,8 @@ import { fetchPostByTopicSearch } from '@/lib/query/post';
 import { Separator } from '@/components/ui/separator';
 import React from 'react'
 
+export const dynamic = 'force-dynamic';
+
 type SearchPageProps = {
   searchParams: Promise<{ term: string }>;
 };

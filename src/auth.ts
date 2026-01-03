@@ -4,7 +4,8 @@ import GitHub from "next-auth/providers/github";
 import { db } from "@/lib";
 
 if(!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CLIENT_SECRET){
-    throw new Error('Missing github client id or client secret');
+    // throw new Error('Missing github client id or client secret');
+    console.warn('Missing github client id or client secret');
 }
 
 export const {handlers:{GET, POST}, auth, signIn, signOut} = NextAuth({

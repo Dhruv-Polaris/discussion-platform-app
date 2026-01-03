@@ -1,20 +1,31 @@
 import { PrismaClient } from '@prisma/client';
 import { PrismaLibSql } from '@prisma/adapter-libsql';
 
-const adapter = new PrismaLibSql({
-  url: process.env.DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
-declare global {
-  var prisma: PrismaClient | undefined;
-}
+const createPrismaClient = () => {
+  const url = process.env.DATABASE_URL;
+  const authToken = process.env.TURSO_AUTH_TOKEN;
 
-export const db = globalThis.prisma || new PrismaClient({ 
-  adapter,
-  log: ['error', 'warn'],
-});
+  if (url && authToken) {
+    const adapter = new PrismaLibSql({
+      url,
+      authToken,
+    });
+
+    return new PrismaClient({
+      adapter,
+      log: ['error', 'warn'],
+    });
+  }
+
+  return new PrismaClient({
+    log: ['error', 'warn'],
+  });
+};
+
+export const db = globalForPrisma.prisma || createPrismaClient();
 
 if (process.env.NODE_ENV !== 'production') {
-  globalThis.prisma = db;
+  globalForPrisma.prisma = db;
 }

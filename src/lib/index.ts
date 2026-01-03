@@ -1,27 +1,24 @@
 import { PrismaClient } from '@prisma/client';
 import { PrismaLibSql } from '@prisma/adapter-libsql';
-
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+import { withAccelerate } from '@prisma/extension-accelerate';
 
 const createPrismaClient = () => {
-  const url = process.env.DATABASE_URL;
-  const authToken = process.env.TURSO_AUTH_TOKEN;
+  const url = process.env.DATABASE_URL || "libsql://dummy-url";
+  const authToken = process.env.TURSO_AUTH_TOKEN || "dummy-token";
 
-  if (url) {
-    const adapter = new PrismaLibSql({
-      url,
-      authToken,
-    });
-
-    return new PrismaClient({
-      adapter,
-      log: ['error', 'warn'],
-    });
-  }
+  const adapter = new PrismaLibSql({
+    url,
+    authToken,
+  });
 
   return new PrismaClient({
+    adapter,
     log: ['error', 'warn'],
-  });
+  }).$extends(withAccelerate());
+};
+
+const globalForPrisma = globalThis as unknown as { 
+  prisma: ReturnType<typeof createPrismaClient> 
 };
 
 export const db = globalForPrisma.prisma || createPrismaClient();

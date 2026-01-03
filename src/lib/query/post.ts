@@ -36,7 +36,7 @@ export const fetchTopPosts = async (offset: number = 0, limit: number = 10): Pro
         },
         take: limit,
         skip: offset
-    })
+    }) as unknown as Promise<PostWithData[]>
 }
 
 export const fetchPostByTopicSearch = async (term: string) : Promise<PostWithData[]> => {
